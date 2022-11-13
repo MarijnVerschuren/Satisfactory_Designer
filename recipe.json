@@ -1,0 +1,327 @@
+{
+    "bauxite": null,
+    "caterium": null,
+    "coal": null,
+    "copper": null,
+    "iron": null,
+    "limestone": null,
+    "quartz": null,
+    "sam": null,
+    "sulfur": null,
+    "uranium": null,
+    "iron_bar": [
+        [
+            [
+                "smelter",
+                2,
+                [
+                    "iron",
+                    1
+                ]
+            ],
+            {}
+        ]
+    ],
+    "copper_bar": [
+        [
+            [
+                "smelter",
+                2,
+                [
+                    "copper",
+                    1
+                ]
+            ],
+            {}
+        ],
+        [
+            [
+                "foundry",
+                12,
+                [
+                    "copper",
+                    10
+                ],
+                [
+                    "iron",
+                    5
+                ]
+            ],
+            {
+                "output": 20
+            }
+        ]
+    ],
+    "caterium_bar": [
+        [
+            [
+                "smelter",
+                4,
+                [
+                    "caterium",
+                    1
+                ]
+            ],
+            {}
+        ]
+    ],
+    "steel_bar": [
+        [
+            [
+                "foundry",
+                4,
+                [
+                    "iron",
+                    3
+                ],
+                [
+                    "coal",
+                    3
+                ]
+            ],
+            {
+                "output": 3
+            }
+        ]
+    ],
+    "iron_plate": [
+        [
+            [
+                "constructor",
+                6,
+                [
+                    "iron_bar",
+                    3
+                ]
+            ],
+            {
+                "output": 2
+            }
+        ]
+    ],
+    "iron_rod": [
+        [
+            [
+                "constructor",
+                4,
+                [
+                    "iron_bar",
+                    1
+                ]
+            ],
+            {}
+        ]
+    ],
+    "screw": [
+        [
+            [
+                "constructor",
+                6,
+                [
+                    "iron_rod",
+                    1
+                ]
+            ],
+            {
+                "output": 4
+            }
+        ]
+    ],
+    "copper_sheet": [
+        [
+            [
+                "constructor",
+                6,
+                [
+                    "copper_bar",
+                    2
+                ]
+            ],
+            {}
+        ]
+    ],
+    "steel_beam": [
+        [
+            [
+                "constructor",
+                4,
+                [
+                    "steel_bar",
+                    4
+                ]
+            ],
+            {}
+        ]
+    ],
+    "steel_pipe": [
+        [
+            [
+                "constructor",
+                6,
+                [
+                    "steel_bar",
+                    3
+                ]
+            ],
+            {
+                "output": 2
+            }
+        ]
+    ],
+    "wire": [
+        [
+            [
+                "constructor",
+                4,
+                [
+                    "copper_bar",
+                    1
+                ]
+            ],
+            {
+                "output": 2
+            }
+        ]
+    ],
+    "cable": [
+        [
+            [
+                "constructor",
+                2,
+                [
+                    "wire",
+                    2
+                ]
+            ],
+            {}
+        ]
+    ],
+    "quick_wire": [
+        [
+            [
+                "constructor",
+                5,
+                [
+                    "caterium_bar",
+                    1
+                ]
+            ],
+            {
+                "output": 5
+            }
+        ]
+    ],
+    "concrete": [
+        [
+            [
+                "constructor",
+                4,
+                [
+                    "limestone",
+                    3
+                ]
+            ],
+            {}
+        ]
+    ],
+    "quartz_crystal": [
+        [
+            [
+                "constructor",
+                8,
+                [
+                    "quartz",
+                    5
+                ]
+            ],
+            {
+                "output": 3
+            }
+        ]
+    ],
+    "silica": [
+        [
+            [
+                "constructor",
+                8,
+                [
+                    "quartz",
+                    3
+                ]
+            ],
+            {
+                "output": 5
+            }
+        ]
+    ],
+    "reinforced_iron_plate": [
+        [
+            [
+                "assembler",
+                12,
+                [
+                    "iron_plate",
+                    6
+                ],
+                [
+                    "screw",
+                    12
+                ]
+            ],
+            {}
+        ]
+    ],
+    "modular_frame": [
+        [
+            [
+                "assembler",
+                60,
+                [
+                    "reinforced_iron_plate",
+                    3
+                ],
+                [
+                    "iron_rod",
+                    12
+                ]
+            ],
+            {
+                "output": 2
+            }
+        ],
+        [
+            [
+                "assembler",
+                24,
+                [
+                    "reinforced_iron_plate",
+                    3
+                ],
+                [
+                    "screw",
+                    56
+                ]
+            ],
+            {
+                "output": 2
+            }
+        ]
+    ],
+    "rotor": [
+        [
+            [
+                "assembler",
+                15,
+                [
+                    "iron_rod",
+                    5
+                ],
+                [
+                    "screw",
+                    25
+                ]
+            ],
+            {}
+        ]
+    ]
+}
