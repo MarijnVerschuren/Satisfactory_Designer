@@ -92,10 +92,11 @@ def get_item_tree(item_name: str, per_min: int = 0) -> list:
 
 	return [f"{per_min} x {choice.name}", [get_item_tree(item[0], per_min * item[1]) for item in choice.items]]
 
-def print_item_tree(tree: list or str) -> None:
+
+def print_item_tree(tree: list or str, indent: int = 0) -> None:
 	for layer in tree:
-		if isinstance(layer, str): print(layer); continue
-		print_item_tree(layer)
+		if isinstance(layer, str): print(" " * indent + layer); continue
+		print_item_tree(layer, indent + 2)
 
 
 
