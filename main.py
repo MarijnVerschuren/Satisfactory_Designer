@@ -1,5 +1,6 @@
 import json
 import sys
+import os
 
 
 
@@ -74,6 +75,7 @@ item_list = []
 
 
 # functions
+clear_console =			lambda: os.system("cls" if os.name in ["nt", "dos"] else "clear")
 filter_items_by_name =	lambda val: [x for x in item_list if x.name == val]
 def get_item_tree(item_name: str, per_min: int = 0) -> list:
 	recipes = filter_items_by_name(item_name)
@@ -122,4 +124,9 @@ if __name__ == "__main__":
 		item_list.extend([recipe(key, *args, **kwargs) for args, kwargs in val])
 	#print(json.dumps(item_list, cls=item_encoder, indent=4))
 
-	print_item_tree(get_item_tree("modular_frame"))
+	while True:
+		clear_console()
+		item_name = input("item: ")
+		if not filter_items_by_name(item_name): input("item does not exist (press enter to continue)"); continue
+		print_item_tree(get_item_tree(item_name))
+		input("(press enter to continue)")
