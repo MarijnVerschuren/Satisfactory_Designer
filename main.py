@@ -34,82 +34,7 @@ machines = [
 	"assembler"
 ]
 
-items = {
-	"bauxite":						None,
-	"caterium":						None,
-	"coal":							None,
-	"copper":						None,
-	"iron":							None,
-	"limestone":					None,
-	"quartz":						None,
-	"sam":							None,
-	"sulfur":						None,
-	"uranium":						None,
-
-	"iron_bar":						[
-		(("smelter", 2, ("iron", 1)), {})
-	],
-	"copper_bar":					[
-		(("smelter", 2, ("copper", 1)), {}),
-		(("foundry", 12, ("copper", 10), ("iron", 5)), {"output": 20})
-	],
-	"caterium_bar":					[
-		(("smelter", 4, ("caterium", 1)), {})
-	],
-	"steel_bar":					[
-		(("foundry", 4, ("iron", 3), ("coal", 3)), {"output": 3})
-	],
-
-	"iron_plate":					[
-		(("constructor", 6, ("iron_bar", 3)), {"output": 2})
-	],
-	"iron_rod":						[
-		(("constructor", 4, ("iron_bar", 1)), {})
-	],
-	"screw":						[
-		(("constructor", 6, ("iron_rod", 1)), {"output": 4})
-	],
-	"copper_sheet":					[
-		(("constructor", 6, ("copper_bar", 2)), {})
-	],
-	"steel_beam":					[
-		(("constructor", 4, ("steel_bar", 4)), {})
-	],
-	"steel_pipe":					[
-		(("constructor", 6, ("steel_bar", 3)), {"output": 2})
-	],
-	"wire":							[
-		(("constructor", 4, ("copper_bar", 1)), {"output": 2})
-	],
-	"cable":						[
-		(("constructor", 2, ("wire", 2)), {})
-	],
-	"quick_wire":					[
-		(("constructor", 5, ("caterium_bar", 1)), {"output": 5})
-	],
-	"concrete":						[
-		(("constructor", 4, ("limestone", 3)), {})
-	],
-	"quartz_crystal":				[
-		(("constructor", 8, ("quartz", 5)), {"output": 3})
-	],
-	"silica":						[
-		(("constructor", 8, ("quartz", 3)), {"output": 5})
-	],
-
-	"reinforced_iron_plate":		[
-		(("assembler", 12, ("iron_plate", 6), ("screw", 12)), {})
-	],
-	"modular_frame":				[
-		(("assembler", 60, ("reinforced_iron_plate", 3), ("iron_rod", 12)), {"output": 2}),
-		(("assembler", 24, ("reinforced_iron_plate", 3), ("screw", 56)), {"output": 2})
-	],
-	"rotor":						[
-		(("assembler", 15, ("iron_rod", 5), ("screw", 25)), {})
-	],
-}
-
-# classs and functions
+# classs
 class item:
 	item_count = 0;
 	def __init__(self, name):
@@ -125,11 +50,11 @@ class ore(item):
 		super(ore, self).__init__(name)
 
 class recipe(item):
-	def __init__(self, name, machine, time, *_items, output = 1):
+	def __init__(self, name, machine, time, *items, output = 1):
 		super(recipe, self).__init__(name)
 		self.machine =		machine
 		self.time =			time
-		self.items =		_items
+		self.items =		items
 		self.output =		output
 
 	def __str__(self):	return f"{{id: {self.id}, name: {self.name}, machine: {self.machine}, time: {self.time}, items: {self.items}, output: {self.output}}}"
@@ -142,23 +67,44 @@ class item_encoder(json.JSONEncoder):
 			return {"id": obj.id, "name": obj.name}
 		return json.JSONEncoder.default(self, obj)
 
+
 # vars
-constraints = {
-    "belt_level": levels["mk2"],
-    "mining_level": levels["mk2"],
-    "overclock_count": 6
-}
 mining_options = {}
 item_list = []
 
+
+# functions
+filter_items_by_name =	lambda val: [x for x in item_list if x.name == val]
+def get_item_tree(item_name: str, per_min: int = 0) -> list:
+	recipes = filter_items_by_name(item_name)
+	if len(recipes) > 1:
+		for index, recipe in enumerate(recipes): print(f"({index}): {recipe}")
+		choice = None
+		while (not choice):
+			try: choice = recipes[int(input("recipe: "))]
+			except: pass
+	else: choice = recipes[0]
+
+	if isinstance(choice, ore): return f"{per_min} x {choice.name}"
+
+	if not per_min:	per_min = (60 / choice.time)
+	else:			per_min /= choice.output
+
+	return [f"{per_min} x {choice.name}", [get_item_tree(item[0], per_min * item[1]) for item in choice.items]]
+
+def print_item_tree(tree: list or str) -> None:
+	for layer in tree:
+		if isinstance(layer, str): print(layer); continue
+		print_item_tree(layer)
+
+
+
 if __name__ == "__main__":
 	with open("recipe.json", "r") as file:
-		json.load(file)
+		recipe_params = json.load(file)
 
 	with open("constraints.json", "r") as file:
-		json.load(file)
-
-	input('sadasd')
+		constraints = json.load(file)
 
 	# calculat mining options based on constraints
 	for oc in overclock_levels:
@@ -168,11 +114,11 @@ if __name__ == "__main__":
 				prod = round(min(belt_levels[constraints["belt_level"]], oc * _val))
 				if prod not in mining_options: mining_options.update({prod: []})
 				mining_options[prod].append({"mining_level": key, "purity": _key, "overclock": oc * 100})
+	#print(json.dumps(mining_options, indent=4))
 
-	print(json.dumps(mining_options, indent=4))
-
-	for key, val in items.items():
+	for key, val in recipe_params.items():
 		if not val: item_list.append(ore(key)); continue
 		item_list.extend([recipe(key, *args, **kwargs) for args, kwargs in val])
+	#print(json.dumps(item_list, cls=item_encoder, indent=4))
 
-	print(json.dumps(item_list, cls=item_encoder, indent=4))
+	print_item_tree(get_item_tree("modular_frame"))
