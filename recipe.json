@@ -324,6 +324,38 @@
             }
         ]
     ],
+    "encased_beam": [
+        [
+            [
+                "assembler",
+                10,
+                [
+                    "steel_beam",
+                    4
+                ],
+                [
+                    "concrete",
+                    5
+                ]
+            ],
+            {}
+        ],
+        [
+            [
+                "assembler",
+                15,
+                [
+                    "steel_pipe",
+                    7
+                ],
+                [
+                    "concrete",
+                    5
+                ]
+            ],
+            {}
+        ]
+    ],
     "rotor": [
         [
             [
@@ -336,6 +368,99 @@
                 [
                     "screw",
                     25
+                ]
+            ],
+            {}
+        ],
+        [
+            [
+                "assembler",
+                16,
+                [
+                    "copper_sheet",
+                    6
+                ],
+                [
+                    "screw",
+                    52
+                ]
+            ],
+            {
+                "output": 3
+            }
+        ]
+    ],
+    "stator": [
+        [
+            [
+                "assembler",
+                12,
+                [
+                    "steel_pipe",
+                    3
+                ],
+                [
+                    "wire",
+                    8
+                ]
+            ],
+            {}
+        ],
+        [
+            [
+                "assembler",
+                15,
+                [
+                    "steel_pipe",
+                    4
+                ],
+                [
+                    "quick_wire",
+                    15
+                ]
+            ],
+            {
+                "output": 2
+            }
+        ]
+    ],
+    "motor": [
+        [
+            [
+                "assembler",
+                12,
+                [
+                    "rotor",
+                    2
+                ],
+                [
+                    "stator",
+                    2
+                ]
+            ],
+            {}
+        ]
+    ],
+    "heavy_modular_frame": [
+        [
+            [
+                "manufacturer",
+                30,
+                [
+                    "modular_frame",
+                    5
+                ],
+                [
+                    "encased_beam",
+                    5
+                ],
+                [
+                    "steel_pipe",
+                    15
+                ],
+                [
+                    "screw",
+                    100
                 ]
             ],
             {}
