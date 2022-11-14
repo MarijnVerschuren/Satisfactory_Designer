@@ -269,6 +269,23 @@
                 ]
             ],
             {}
+        ],
+        [
+            [
+                "assembler",
+                12,
+                [
+                    "iron_plate",
+                    18
+                ],
+                [
+                    "screw",
+                    50
+                ]
+            ],
+            {
+                "output": 3
+            }
         ]
     ],
     "modular_frame": [

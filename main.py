@@ -58,7 +58,10 @@ class recipe(item):
 		self.items =		items
 		self.output =		output
 
-	def __str__(self):	return f"{{id: {self.id}, name: {self.name}, machine: {self.machine}, time: {self.time}, items: {self.items}, output: {self.output}}}"
+	@property
+	def native_per_min(self) -> int:	return self.output * (60 / self.time) 
+
+	def __str__(self):					return f"{{id: {self.id}, name: {self.name}, machine: {self.machine}, time: {self.time}, items: {self.items}, output: {self.output}}}"
 
 class item_encoder(json.JSONEncoder):
 	def default(self, obj):
@@ -77,28 +80,42 @@ item_list = []
 # functions
 clear_console =			lambda: os.system("cls" if os.name in ["nt", "dos"] else "clear")
 filter_items_by_name =	lambda val: [x for x in item_list if x.name == val]
-def get_item_tree(item_name: str, per_min: int = 0) -> list:
+
+
+def get_item_tree(item_name: str, per_min: int = 0) -> list or int:
 	recipes = filter_items_by_name(item_name)
 	if len(recipes) > 1:
 		for index, recipe in enumerate(recipes): print(f"({index}): {recipe}")
 		choice = None
 		while (not choice):
 			try: choice = recipes[int(input("recipe: "))]
-			except: pass
+			except Exception as e:
+				if e == KeyboardInterrupt: exit(0);
 	else: choice = recipes[0]
 
-	if isinstance(choice, ore): return f"{per_min} x {choice.name}"
+	if isinstance(choice, ore): return (per_min, choice)  # f"{per_min} x {choice.name}"
 
-	if not per_min:	per_min = (60 / choice.time)
-	else:			per_min /= choice.output
+	if not per_min:
+		while True:
+			try: per_min = int(input(f"items per minute (native: {choice.native_per_min}): ")) / choice.output; break
+			except Exception as e:
+				if e == KeyboardInterrupt: exit(0);
+				sys.stdout.write("\033[F\033[K")
+	else: per_min /= choice.output
 
-	return [f"{per_min} x {choice.name}", [get_item_tree(item[0], per_min * item[1]) for item in choice.items]]
+	return [(per_min * choice.output, choice), [get_item_tree(item[0], per_min * item[1]) for item in choice.items]]  # f"{per_min / choice.native_per_min} x {choice.name}"
 
 
 def print_item_tree(tree: list or str, indent: int = 0) -> None:
 	for layer in tree:
-		if isinstance(layer, str): print(" " * indent + layer); continue
+		if isinstance(layer, tuple):
+			per_min, obj = layer
+			msg = " " * indent + obj.name
+			if isinstance(obj, recipe):	msg += " " * (50 - len(msg)) + f"<overclock: {per_min / obj.native_per_min}, per_min: {per_min}>"
+			else:						msg += " " * (50 - len(msg)) + f"<per_min: {per_min}>"
+			print(msg); continue
 		print_item_tree(layer, indent + 2)
+
 
 
 
@@ -124,9 +141,12 @@ if __name__ == "__main__":
 		item_list.extend([recipe(key, *args, **kwargs) for args, kwargs in val])
 	#print(json.dumps(item_list, cls=item_encoder, indent=4))
 
+	clear_console()
 	while True:
-		clear_console()
-		item_name = input("item: ")
-		if not filter_items_by_name(item_name): input("item does not exist (press enter to continue)"); continue
-		print_item_tree(get_item_tree(item_name))
-		input("(press enter to continue)")
+		item_name = input("item: "); sys.stdout.write("\033[F\033[K")
+		if not item_name or not filter_items_by_name(item_name): input("item does not exist (press enter to continue)"); sys.stdout.write("\033[F\033[K"); continue
+		
+		tree = get_item_tree(item_name)
+		print("\n\n")
+		print_item_tree(tree)
+		print("\n\n")
