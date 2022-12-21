@@ -9,6 +9,9 @@
     "sam": null,
     "sulfur": null,
     "uranium": null,
+    "crude_oil": null,
+    "water": null,
+    "nitrogen": null,
     "iron_bar": [
         [
             [
@@ -124,6 +127,32 @@
             ],
             {
                 "output": 4
+            }
+        ],
+        [
+            [
+                "constructor",
+                24,
+                [
+                    "iron_bar",
+                    5
+                ]
+            ],
+            {
+                "output": 20
+            }
+        ],
+        [
+            [
+                "constructor",
+                12,
+                [
+                    "steel_beam",
+                    1
+                ]
+            ],
+            {
+                "output": 52
             }
         ]
     ],
@@ -461,6 +490,170 @@
                 [
                     "screw",
                     100
+                ]
+            ],
+            {}
+        ]
+    ],
+    "plastic": [
+        [
+            [
+                "refinery",
+                6,
+                [
+                    "crude_oil",
+                    3
+                ]
+            ],
+            {
+                "output": 2
+            }
+        ],
+        [
+            [
+                "refinery",
+                6,
+                [
+                    "polymer_resin",
+                    6
+                ],
+                [
+                    "water",
+                    2
+                ]
+            ],
+            {
+                "output": 2
+            }
+        ],
+        [
+            [
+                "refinery",
+                12,
+                [
+                    "rubber",
+                    6
+                ],
+                [
+                    "fuel",
+                    6
+                ]
+            ],
+            {
+                "output": 12
+            }
+        ]
+    ],
+    "rubber": [
+        [
+            [
+                "refinery",
+                6,
+                [
+                    "crude_oil",
+                    3
+                ]
+            ],
+            {
+                "output": 2
+            }
+        ],
+        [
+            [
+                "refinery",
+                6,
+                [
+                    "polymer_resin",
+                    4
+                ],
+                [
+                    "water",
+                    4
+                ]
+            ],
+            {
+                "output": 2
+            }
+        ],
+        [
+            [
+                "refinery",
+                12,
+                [
+                    "plastic",
+                    6
+                ],
+                [
+                    "fuel",
+                    6
+                ]
+            ],
+            {
+                "output": 12
+            }
+        ]
+    ],
+    "polymer_resin": [
+        [
+            [
+                "refinery",
+                6,
+                [
+                    "crude_oil",
+                    3
+                ]
+            ],
+            {
+                "output": 2
+            }
+        ],
+        [
+            [
+                "refinery",
+                6,
+                [
+                    "crude_oil",
+                    6
+                ]
+            ],
+            {
+                "output": 13
+            }
+        ]
+    ],
+    "circuit_board": [
+        [
+            [
+                "assembler",
+                8,
+                [
+                    "copper_sheet",
+                    2
+                ],
+                [
+                    "plastic",
+                    4
+                ]
+            ],
+            {}
+        ]
+    ],
+    "computer": [
+        [
+            [
+                "manufacturer",
+                16,
+                [
+                    "circuit_board",
+                    7
+                ],
+                [
+                    "rubber",
+                    12
+                ],
+                [
+                    "quick_wire",
+                    28
                 ]
             ],
             {}
